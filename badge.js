@@ -21,8 +21,8 @@ async function buatKartuKaryawan(data) {
   const photo = await loadImage(photoPath);
   const photoWidth = 241;
   const photoHeight = 297;
-  const photoX = 156; // Posisi horizontal
-  const photoY = 302; // Posisi vertikal
+  const photoX = 250; // Posisi horizontal
+  const photoY = 500; // Posisi vertikal
   ctx.drawImage(photo, photoX, photoY, photoWidth, photoHeight);
 
   // Nama karyawan
