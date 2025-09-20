@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert JSON to CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .download-link {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Convert JSON to CSV</h1>
+        <textarea id="jsonInput" placeholder="Paste JSON data here"></textarea>
+        <button onclick="convert()">Convert to CSV</button>
+        <a id="downloadLink" class="download-link" download="data.csv">Download CSV</a>
+    </div>
+
+    <script>
+        function convert() {
+            try {
+                // Get JSON data
+                const jsonData = JSON.parse(document.getElementById('jsonInput').value);
+                
+                // Create CSV content
+                let csvContent = "number,name,link\n";
+                
+                jsonData.forEach(item => {
+                    // Extract nomor and nama from barcode
+                    const barcodeParts = item.barcode.split('?nomor=')[1].split('#');
+                    const nomor = barcodeParts[0];
+                    const nama = barcodeParts[1];
+                    
+                    // Replace underscores with spaces in nama
+                    const namaDenganSpasi = nama.replace(/_/g, ' ');
+                    // Create full link
+                    const fullLink = `http://103.175.219.151:3000/hadiah.html?nomor=${nomor}#${nama}`;
+                    csvContent += `${nomor},${namaDenganSpasi},${fullLink}\n`;
+                });
+                
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = url;
+                downloadLink.style.display = 'block';
+                downloadLink.click();
+            } catch (error) {
+                alert('Error converting JSON: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
