@@ -8,8 +8,10 @@ async function buatKartuKaryawan(data) {
 
   // Muat gambar latar belakang
   const background = await loadImage(backgroundPath);
-  const width = background.width;
-  const height = background.height;
+    // Faktor perbesaran (misal 2x lipat)
+  const scaleFactor = 2;
+  const width = background.width * scaleFactor;
+  const height = background.height * scaleFactor;
 
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
@@ -19,30 +21,41 @@ async function buatKartuKaryawan(data) {
 
   // Foto karyawan
   const photo = await loadImage(photoPath);
-  const photoWidth = 241;
-  const photoHeight = 297;
-  const photoX = 250; // Posisi horizontal
-  const photoY = 500; // Posisi vertikal
+
+  // tinggi fix
+  const photoHeight = 1200;
+
+  // hitung lebar berdasarkan rasio asli
+  const aspectRatio = photo.width / photo.height;
+  const photoWidth = photoHeight * aspectRatio;
+
+  const photoX = width - photoWidth - 0;  // padding 100 px dari kanan
+  const photoY = height - photoHeight - 0; // padding 100 px dari bawah
+
   ctx.drawImage(photo, photoX, photoY, photoWidth, photoHeight);
 
+
+
   // Nama karyawan
-  ctx.font = '40px Arial';
-  ctx.fillStyle = '#000';
-  ctx.textAlign = 'center';
+  ctx.font = 'bold 40px Arial';
+  ctx.fillStyle = '#4dc2c6ff';
+  ctx.textAlign = 'left';
 
-  const textX = width / 2;
-  const textY = 650;
-  ctx.fillText(nama, textX, textY);
-
-  // Tambahkan garis bawah pada nama
-  const textWidth = ctx.measureText(nama).width;
-  const underlineHeight = 4;
-  const underlineOffset = 4;
-  ctx.fillRect(textX - textWidth / 2, textY + underlineOffset, textWidth, underlineHeight);
+  const paddingNama = 1000;
+  const textXNama = width - paddingNama;
+  const textYNama = 400;
+  ctx.fillText(nama, textXNama, textYNama);
 
   // NIK karyawan
-  ctx.font = '35px Arial';
-  ctx.fillText(`${nik}`, width / 2, 690);
+  ctx.font = 'bold 40px Arial';
+  ctx.fillStyle = '#4dc2c6ff';
+  ctx.textAlign = 'left';
+
+  const paddingNik = 1000;
+  const textXNik = width - paddingNik;
+  const textYNik = 450;
+  ctx.fillText(`${nik}`, textXNik, textYNik);
+
 
   // Simpan kartu sebagai file PNG
   const outputPath = `./hasil/badge-${nik}.png`;
@@ -77,7 +90,7 @@ function prosesCSV(filePath, backgroundPath) {
 
 // Path ke file CSV dan gambar latar belakang
 const csvFilePath = './data.csv';
-const backgroundPath = './background/background_wbm.png';
+const backgroundPath = './background/Journey-bg.png';
 
 // Jalankan proses
 prosesCSV(csvFilePath, backgroundPath);
