@@ -23,7 +23,7 @@ const SLOT_Y1 = MM_TO_PT(6);
 const SLOT_Y2 = MM_TO_PT(68);
 
 // Konfigurasi border
-const BORDER_COLOR = 'black'; // bisa diganti 'red', 'blue', '#50b8b7'
+const BORDER_COLOR = 'white'; // bisa diganti 'red', 'blue', '#50b8b7'
 const BORDER_WIDTH = 1;       // ketebalan garis border
 
 // Baca file gambar
