@@ -58,7 +58,7 @@ async function buatKartuKaryawan(data) {
 
 
   // Simpan kartu sebagai file PNG
-  const outputPath = `./hasil/${nama}-${nik}.png`;
+  const outputPath = `./hasil/${nama} (${nik}).png`;
   const buffer = canvas.toBuffer('image/png');
   fs.writeFileSync(outputPath, buffer);
 
